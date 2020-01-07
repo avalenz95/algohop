@@ -45,6 +45,7 @@ def index():
         hoverinfo='none',
         mode='lines')
 
+    #Update node positions
     node_xpos = []
     node_ypos = []
     for node in G.nodes():
@@ -66,6 +67,7 @@ def index():
             #handles width of nodes
             line_width=5))
 
+    #Adjaceny Hover Text
     node_adjacencies = []
     node_text = []
     for node, adjacencies in enumerate(G.adjacency()):
