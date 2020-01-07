@@ -6,9 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-dash = "*"
 plotly = "*"
 gunicorn = "*"
+flask = "*"
 
 [requires]
 python_version = "3.7"
