@@ -10,6 +10,7 @@ plotly = "*"
 gunicorn = "*"
 flask = "*"
 networkx = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.7"
