@@ -85,6 +85,14 @@ def index():
                 showlegend=False,
                 hovermode='closest',
                 margin=dict(b=20,l=5,r=5,t=40),
+                #Play Animation Button
+                updatemenus=[dict(
+                    type="buttons",
+                        buttons=[dict(
+                            label="Play Animation",
+                            method="animate",
+                            args=[]
+                            )])],
                 annotations=[ dict(
                     text="",
                     showarrow=False,
