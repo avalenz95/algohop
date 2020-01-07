@@ -81,24 +81,35 @@ def index():
     fig = go.Figure(data=[edge_trace, node_trace],
              layout=go.Layout(
                 title='',
+
                 titlefont_size=16,
+
                 showlegend=False,
+
                 hovermode='closest',
+
                 margin=dict(b=20,l=5,r=5,t=40),
+
                 #Play Animation Button
                 updatemenus=[dict(
                     type="buttons",
                         buttons=[dict(
                             label="Play Animation",
                             method="animate",
-                            args=[]
-                            )])],
+                            args=[])]
+                )],
+                #Bottom of graph annotations
                 annotations=[ dict(
                     text="",
+
                     showarrow=False,
+
                     xref="paper", yref="paper",
+
                     x=0.005, y=-0.002 ) ],
+
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
                 )
     figure = fig.show()
