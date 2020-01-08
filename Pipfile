@@ -13,6 +13,7 @@ networkx = "*"
 numpy = "*"
 dash = "*"
 dash-cytoscape = "*"
+dash-bootstrap-components = "*"
 
 [requires]
 python_version = "3.7"
