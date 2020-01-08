@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f02b0d7e5c3eec75db2c58c5ca54ef3a453fdb2668c99feef809841d3dec3ccd"
+            "sha256": "31f47766341c2d39040ce1f919e2ad2bd5353b0eb3ef78f51e98f6e6e30a14d7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -35,6 +35,13 @@
                 "sha256:d3434a070ac3005d61652f2069a50bae47cfe28f49b226e8bb66d7f3f256562b"
             ],
             "version": "==1.6.0"
+        },
+        "dash-cytoscape": {
+            "hashes": [
+                "sha256:0cb0d26ba39273cecbb95ee61ceb9faebb71fd6617b7d5f245a73afb9c308444"
+            ],
+            "index": "pypi",
+            "version": "==0.1.1"
         },
         "dash-html-components": {
             "hashes": [

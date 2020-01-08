@@ -12,6 +12,7 @@ flask = "*"
 networkx = "*"
 numpy = "*"
 dash = "*"
+dash-cytoscape = "*"
 
 [requires]
 python_version = "3.7"
