@@ -90,13 +90,22 @@ def index():
 
                 margin=dict(b=20,l=5,r=5,t=40),
 
-                #Play Animation Button
+                #Button Menu
                 updatemenus=[dict(
                     type="buttons",
-                        buttons=[dict(
-                            label="Play Animation",
+                        buttons=[
+                            #Play
+                            dict(label="Play Animation",
                             method="animate",
-                            args=[])]
+                            args=[]),
+                            #Pause
+                            dict(label="Pause",
+                                method="animate",
+                                args=[[None], dict(
+                                    frame=dict(duration=0, redraw=False),
+                                    mode="immediate",
+                                    transition=dict(duration=0))]) 
+                        ]
                 )],
                 #Bottom of graph annotations
                 annotations=[ dict(
@@ -109,7 +118,7 @@ def index():
                     x=0.005, y=-0.002 ) ],
 
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                
+
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
                 )
     figure = fig.show()
