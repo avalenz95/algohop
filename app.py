@@ -13,7 +13,7 @@ import dash_cytoscape as cyto
 
 
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
 #Creates a table for node input
@@ -48,6 +48,26 @@ def graph_nodes():
     )
 
 
+def navbar():
+    return dbc.NavbarSimple(
+        children=[
+            dbc.NavItem(dbc.NavLink("Page 1", href="#")),
+            dbc.DropdownMenu(
+                children=[
+                    dbc.DropdownMenuItem("More pages", header=True),
+                    dbc.DropdownMenuItem("Page 2", href="#"),
+                    dbc.DropdownMenuItem("Page 3", href="#"),
+                ],
+                nav=True,
+                in_navbar=True,
+                label="More",
+            ),
+        ],
+        brand="NavbarSimple",
+        brand_href="#",
+        color="primary",
+        dark=True,
+    )
 
 
 #Layout of the dash app
@@ -56,6 +76,7 @@ def layout():
         id='app-body',
         className='application-body',
         children=[
+            navbar(), 
             html.Div(
                 id='info-table',
                 className='info-table',
