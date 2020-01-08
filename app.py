@@ -78,8 +78,9 @@ def index():
     node_trace.text = node_text
 
 
+
     fig = go.Figure(data=[edge_trace, node_trace],
-             layout=go.Layout(
+            layout=go.Layout(
                 title='',
 
                 titlefont_size=16,
@@ -119,8 +120,14 @@ def index():
 
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
 
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
-                )
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)),
+
+                #Animation Frames
+                frames=[go.Frame(data=[go.Scatter(x=[0, 1], y=[1, 1])]),
+                    go.Frame(data=[go.Scatter(x=[1, 4], y=[1, 4])]),
+                    go.Frame(data=[go.Scatter(x=[3, 4], y=[3, 4])],
+                        layout=go.Layout(title_text="End Title"))]
+            )
     figure = fig.show()
 
 

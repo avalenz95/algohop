@@ -11,6 +11,7 @@ gunicorn = "*"
 flask = "*"
 networkx = "*"
 numpy = "*"
+dash = "*"
 
 [requires]
 python_version = "3.7"
