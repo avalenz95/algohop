@@ -10,30 +10,52 @@ import plotly
 import plotly.graph_objs as go
 import networkx as nx
 import dash_cytoscape as cyto
+import pandas as pd
 
 
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX])
-
+app.title = 'AlgoHop'
 server = app.server
 
 #Creates a table for node input
 def graph_table():
+
     #TODO: Incorporate live dataframes
     table_header = [
-        html.Thead(html.Tr([html.Th("Node"), html.Th("Edges"), html.Th("PosX"), html.Th("PosY")]))
+        html.Thead(
+            html.Tr([html.Th("Node"), 
+            html.Th("Edges"), 
+            html.Th("PosX"), 
+            html.Th("PosY")])
+        )
     ]
     row1= html.Tr([html.Th(0), html.Th("(0,0)"), html.Th("0"), html.Th("0")])
 
     table_body = [html.Tbody([row1])]
 
     return dbc.Table(table_header + table_body,
+        id='graph-table',
         bordered=True,
         dark=True,
         hover=True,
         responsive=True,
         striped=True
     )
+
+def node_table():
+    col_names = ['Node', 'Edges', 'PosX', 'PosY']
+
+    return dash_table.DataTable(
+        id='node-table',
+        columns=([{'id': name, 'name': name} for name in col_names]),
+        data=[
+            dict(**{name: 0 for name in col_names})
+            for i in range(1, 5)
+        ],
+        editable=True
+    )
+    
 
 #Displays graph of nodes
 def graph_nodes():
@@ -146,7 +168,9 @@ def body():
                     dbc.Col(
                         [
                             html.H2("Node Table"),
-                            graph_table()
+                            node_table(),
+                            dcc.Graph(id='node-table-output')
+                            #graph_table()
                         ]
                     )
                 ]
@@ -159,6 +183,22 @@ def body():
 #Dash app layout
 app.layout = html.Div([navbar(), body()])
 
+
+@app.callback(
+    Output('node-table-output', 'figure'),
+    [Input('node-table', 'data'),
+     Input('node-table', 'columns')])
+def display_output(rows, columns):
+    df = pd.DataFrame(rows, columns=[c['name'] for c in columns])
+    return {
+        'data': [{
+            'type': 'parcoords',
+            'dimensions': [{
+                'label': col['name'],
+                'values': df[col['id']]
+            } for col in columns]
+        }]
+    }
 
 if __name__ == '__main__':
     app.run_server(debug=True)

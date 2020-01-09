@@ -14,6 +14,7 @@ numpy = "*"
 dash = "*"
 dash-cytoscape = "*"
 dash-bootstrap-components = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.7"
