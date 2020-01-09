@@ -15,6 +15,7 @@ import dash_cytoscape as cyto
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 
+server = app.server
 
 #Creates a table for node input
 def graph_table():
