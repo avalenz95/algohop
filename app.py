@@ -5,7 +5,7 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 import dash_table
 from dash.exceptions import PreventUpdate
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly
 import plotly.graph_objs as go
 import networkx as nx
@@ -13,25 +13,26 @@ import dash_cytoscape as cyto
 
 
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 
 
 #Creates a table for node input
 def graph_table():
-        #Column Names
-        params = [
-        'Nodes', 'Edges', 'PosX', 'PosY'
-        ]
+    #TODO: Incorporate live dataframes
+    table_header = [
+        html.Thead(html.Tr([html.Th("Node"), html.Th("Edges"), html.Th("PosX"), html.Th("PosY")]))
+    ]
+    row1= html.Tr([html.Th(0), html.Th("(0,0)"), html.Th("0"), html.Th("0")])
 
-        return dash_table.DataTable(
-                id='table-editing-simple',
-                columns=(
-                    [{'id': p, 'name': p} for p in params]
-                ),
-                data=[],
-                editable=True
-            )
+    table_body = [html.Tbody([row1])]
 
+    return dbc.Table(table_header + table_body,
+        bordered=True,
+        dark=True,
+        hover=True,
+        responsive=True,
+        striped=True
+    )
 
 #Displays graph of nodes
 def graph_nodes():
@@ -49,25 +50,25 @@ def graph_nodes():
 
 
 def navbar():
-    return dbc.NavbarSimple(
-    children=[
-        dbc.NavItem(dbc.NavLink("Link", href="#")),
-        dbc.DropdownMenu(
-            nav=True,
-            in_navbar=True,
-            label="Menu",
-            children=[
-                dbc.DropdownMenuItem("Entry 1"),
-                dbc.DropdownMenuItem("Entry 2"),
-                dbc.DropdownMenuItem(divider=True),
-                dbc.DropdownMenuItem("Entry 3"),
-            ],
-        ),
-    ],
-    brand="Demo",
-    brand_href="#",
-    sticky="top",
-)
+    return dbc.Navbar(
+        [
+            html.A(
+                # Use row and col to control vertical alignment of logo / brand
+                dbc.Row(
+                    [
+                        dbc.Col(html.Img(src="", height="30px")),
+                        dbc.Col(dbc.NavbarBrand("Navbar", className="ml-2")),
+                    ],
+                    align="center",
+                    no_gutters=True,
+                ),
+                href="https://www.notion.so/ablades/1c0cc15bc0b74ecc8dac31c9276d61b0",
+            ),
+            dbc.NavbarToggler(id="navbar-toggler"),
+        ],
+        color="dark",
+        dark=True,
+    )
 
 def info_tabs():
     #First Tab Content
@@ -140,62 +141,22 @@ def body():
             ),
             dbc.Row(
                 [
+                    #Node Input Table
                     dbc.Col(
                         [
-                            html.H2("Input Table"),
+                            html.H2("Node Table"),
                             graph_table()
                         ]
                     )
                 ]
             )
-        ]
+        ],
+        fluid=True
     )
 
+#Dash app layout
 app.layout = html.Div([navbar(), body()])
 
-#Layout of the dash app
-def layout():
-    return html.Div(
-        [
-            dbc.Row
-        ]
-    )
-    # return html.Div(
-    #     id='app-body',
-    #     className='application-body',
-    #     children=[
-    #         navbar(), 
-    #         html.Div(
-    #             id='info-table',
-    #             className='info-table',
-    #             children=[
-    #                 dcc.Tabs(id='info-tabs', value='Test Main Tab', children=[
-    #                     dcc.Tab(
-    #                         label='Tab 1',
-    #                         value='Test Value 1',
-    #                         children=html.Div(className='control-tab', children=[
-    #                             html.H4(className='what-is', children='Information Test'),
-    #                             dcc.Markdown('''Test''')
-    #                         ])
-    #                     ),
-    #                     dcc.Tab(
-    #                         label='Tab 2',
-    #                         value='Test Value 2',
-    #                         children=html.Div(className='control-tab', children=[
-    #                             html.H4(className='what-is', children='Information Test 2'),
-    #                             dcc.Markdown('''Test 2''')
-    #                         ])
-    #                     )
-    #                 ])
-    #             ]
-    #         ),
-    #     graph_table(),
-
-    #     graph_nodes(),
-
-    # ])
-
-#app.layout = layout()
 
 if __name__ == '__main__':
     app.run_server(debug=True)
