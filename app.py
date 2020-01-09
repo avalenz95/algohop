@@ -108,10 +108,10 @@ def info_tabs():
 
     return dbc.Tabs(
         [
-            dbc.Tab(tab1_content, label="Tab 1"),
-            dbc.Tab(tab2_content, label="Tab 2"),
-            dbc.Tab(tab3_content, label="Tab 3"),
-        ]
+            dbc.Tab(tab1_content, label="Tab 1", tabClassName="tab-head"),
+            dbc.Tab(tab2_content, label="Tab 2", tabClassName="tab-head"),
+            dbc.Tab(tab3_content, label="Tab 3", tabClassName="tab-head"),
+        ],
     )
 
 
@@ -151,7 +151,8 @@ def body():
                 ]
             )
         ],
-        fluid=True
+        fluid=True,
+        style={"background-color": "#f6f6f6"}
     )
 
 #Dash app layout
