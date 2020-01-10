@@ -50,8 +50,9 @@ def node_table():
         id='node-table',
         columns=([{'id': name, 'name': name} for name in col_names]),
         data=[
-            dict(**{name: 0 for name in col_names})
-            for i in range(1, 5)
+            {'Node': 0, 'Edges': (0,1), 'PosX': 10, 'PosY': 15},
+            {'Node': 1, 'Edges': (0,1), 'PosX': 14, 'PosY': 12},
+            {'Node': 2, 'Edges': (0,2), 'PosX': 8, 'PosY': 8}
         ],
         editable=True
     )
@@ -61,7 +62,7 @@ def node_table():
 def graph_nodes():
 
     return cyto.Cytoscape(
-        id='cytoscape-two-nodes',
+        id='node-display',
         layout={'name': 'preset'},
         style={'width': '100%', 'height': '400px'},
         elements=[
@@ -169,7 +170,8 @@ def body():
                         [
                             html.H2("Node Table"),
                             node_table(),
-                            dcc.Graph(id='node-table-output')
+                            dcc.Graph(id='node-table-output'),
+                            cyto.Cytoscape(id='node-display-output'),
                             #graph_table()
                         ]
                     )
@@ -182,6 +184,41 @@ def body():
 
 #Dash app layout
 app.layout = html.Div([navbar(), body()])
+
+
+#Set up node display
+@app.callback(
+    Output('node-display-output', 'layout'),
+    [Input('node-table', 'data'),
+     Input('node-table', 'columns')])
+def display_nodes(rows, columns):
+    #set up data frame
+    df = pd.DataFrame(rows, columns=[c['name'] for c in columns])
+    
+    node_list = list()
+
+    #Create all nodes
+    for index, row in df.iterrows():
+        node_list.append({'data': {'id': f'{row["Node"]}', 'label': f'Node {row["Node"]}'}})
+
+    #Create all edges
+    for index, row in df.iterrows():
+        edge = row['Edges']
+        node_list.append({'data': {'source': f'{edge[0]}', 'target': f'{edge[1]}', 'label': f'Node {edge[0]} to {edge[1]}'}})
+
+    print(node_list)
+    # #Visualization object
+    return cyto.Cytoscape(
+        id='node-display',
+        layout={'name': 'circle'},
+        style={'width': '100%', 'height': '400px'},
+        elements=node_list
+    )
+
+
+
+
+
 
 
 @app.callback(
