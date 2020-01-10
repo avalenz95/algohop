@@ -18,30 +18,23 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 app.title = 'AlgoHop'
 server = app.server
 
-# #Creates a table for node input
-# def graph_table():
+#Defines the input properties for node and edge colors
+def color_input():
+    edge_color_input = html.Div(style={'width': '50%', 'display': 'inline'},
+        children=[
+            dbc.Label("Edge Color"),
+            dbc.Input(id="edge-color", placeholder="green", type="text"),
+        ]
+    )
 
-#     #TODO: Incorporate live dataframes
-#     table_header = [
-#         html.Thead(
-#             html.Tr([html.Th("Node"), 
-#             html.Th("Edges"), 
-#             html.Th("PosX"), 
-#             html.Th("PosY")])
-#         )
-#     ]
-#     row1= html.Tr([html.Th(0), html.Th("(0,0)"), html.Th("0"), html.Th("0")])
+    node_color_input = html.Div(style={'width': '50%', 'display': 'inline'},
+        children=[
+            dbc.Label("Node Color"),
+            dbc.Input(id="node-color", placeholder="green", type="text"),
+        ]
+    )
 
-#     table_body = [html.Tbody([row1])]
-
-#     return dbc.Table(table_header + table_body,
-#         id='graph-table',
-#         bordered=True,
-#         dark=True,
-#         hover=True,
-#         responsive=True,
-#         striped=True
-#     )
+    return html.Div([node_color_input, edge_color_input])
 
 def node_table():
     col_names = ['Node', 'Edges']
@@ -60,16 +53,28 @@ def node_table():
 
 #Displays graph of nodes
 def node_graph():
+    default_stylesheet = [
+        {
+            'selector': 'node',
+            'style': {
+                'background-color': '#BFD7B5',
+                'label': 'data(label)'
+            }
+        },
+        {
+            'selector': 'edge',
+            'style': {
+                'line-color': '#A3C4BC'
+            }
+        }
+    ]
 
     return cyto.Cytoscape(
         id='node-display',
         layout={'name': 'circle'},
         style={'width': '100%', 'height': '400px'},
-        elements=[
-            {'data': {'id': 'one', 'label': 'Node 1'}, 'position': {'x': 75, 'y': 75}},
-            {'data': {'id': 'two', 'label': 'Node 2'}, 'position': {'x': 200, 'y': 200}},
-            {'data': {'source': 'one', 'target': 'two'}}
-        ]
+        stylesheet= default_stylesheet,
+        elements=[]
     )
 
 
@@ -112,7 +117,8 @@ def info_tabs():
     tab2_content = dbc.Card(
         dbc.CardBody(
             [
-                html.P("Tab 2 Content", className="tab-text"),
+                html.P("Graph Properties", className="tab-text"),
+                color_input(),
                 dbc.Button("Test Button", color="success"),
             ]
         ),
@@ -136,7 +142,7 @@ def info_tabs():
     return dbc.Tabs(
         [
             dbc.Tab(tab1_content, label="About AlgoHop", tabClassName="tab-head"),
-            dbc.Tab(tab2_content, label="Tab 2", tabClassName="tab-head"),
+            dbc.Tab(tab2_content, label="Graph Properties", tabClassName="tab-head"),
             dbc.Tab(tab3_content, label="Tab 3", tabClassName="tab-head"),
         ],
     )
@@ -201,25 +207,34 @@ def update_nodes(rows, columns, elements):
     return node_list
 
 
+@app.callback(Output('node-display', 'stylesheet'),
+          [Input('edge-color', 'value'),
+           Input('node-color', 'value')],
+           [State('node-display', 'stylesheet')])
+def update_stylesheet(edge_color, node_color, stylesheet):
+    if edge_color is None:
+        edge_color = 'green'
 
+    if node_color is None:
+        node_color = 'green'
 
+    new_colors = [
+        {
+            'selector': 'node',
+            'style': {
+                'background-color': node_color
+            }
+        },
+        {
+            'selector': 'edge',
+            'style': {
+                'line-color': edge_color
+            }
+        }
+    ]
 
+    return stylesheet + new_colors
 
-
-# @app.callback(
-#     [Input('node-table', 'data'),
-#      Input('node-table', 'columns')])
-# def display_output(rows, columns):
-#     df = pd.DataFrame(rows, columns=[c['name'] for c in columns])
-#     return {
-#         'data': [{
-#             'type': 'parcoords',
-#             'dimensions': [{
-#                 'label': col['name'],
-#                 'values': df[col['id']]
-#             } for col in columns]
-#         }]
-#     }
 
 if __name__ == '__main__':
     app.run_server(debug=True)
