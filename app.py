@@ -18,30 +18,30 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 app.title = 'AlgoHop'
 server = app.server
 
-#Creates a table for node input
-def graph_table():
+# #Creates a table for node input
+# def graph_table():
 
-    #TODO: Incorporate live dataframes
-    table_header = [
-        html.Thead(
-            html.Tr([html.Th("Node"), 
-            html.Th("Edges"), 
-            html.Th("PosX"), 
-            html.Th("PosY")])
-        )
-    ]
-    row1= html.Tr([html.Th(0), html.Th("(0,0)"), html.Th("0"), html.Th("0")])
+#     #TODO: Incorporate live dataframes
+#     table_header = [
+#         html.Thead(
+#             html.Tr([html.Th("Node"), 
+#             html.Th("Edges"), 
+#             html.Th("PosX"), 
+#             html.Th("PosY")])
+#         )
+#     ]
+#     row1= html.Tr([html.Th(0), html.Th("(0,0)"), html.Th("0"), html.Th("0")])
 
-    table_body = [html.Tbody([row1])]
+#     table_body = [html.Tbody([row1])]
 
-    return dbc.Table(table_header + table_body,
-        id='graph-table',
-        bordered=True,
-        dark=True,
-        hover=True,
-        responsive=True,
-        striped=True
-    )
+#     return dbc.Table(table_header + table_body,
+#         id='graph-table',
+#         bordered=True,
+#         dark=True,
+#         hover=True,
+#         responsive=True,
+#         striped=True
+#     )
 
 def node_table():
     col_names = ['Node', 'Edges']
@@ -59,11 +59,11 @@ def node_table():
     
 
 #Displays graph of nodes
-def graph_nodes():
+def node_graph():
 
     return cyto.Cytoscape(
         id='node-display',
-        layout={'name': 'preset'},
+        layout={'name': 'circle'},
         style={'width': '100%', 'height': '400px'},
         elements=[
             {'data': {'id': 'one', 'label': 'Node 1'}, 'position': {'x': 75, 'y': 75}},
@@ -81,7 +81,7 @@ def navbar():
                 dbc.Row(
                     [
                         dbc.Col(html.Img(src="", height="30px")),
-                        dbc.Col(dbc.NavbarBrand("Navbar", className="ml-2")),
+                        dbc.Col(dbc.NavbarBrand("Algorithm Hop", className="ml-2")),
                     ],
                     align="center",
                     no_gutters=True,
@@ -95,11 +95,13 @@ def navbar():
     )
 
 def info_tabs():
+
+    info_text = "Algorithm Hop is a step-by-step way of visualizing how algorithms work. Right now the site is limited to just one but as I become more familar with dash and learn more algorithms in class I hope to provide ways to visualize them here so stay tuned!"
     #First Tab Content
     tab1_content = dbc.Card(
         dbc.CardBody(
             [
-                html.P("Tab 1 Content", className="tab-text"),
+                html.P(info_text, className="tab-text"),
                 dbc.Button("Test Button", color="success"),
             ]
         ),
@@ -121,6 +123,7 @@ def info_tabs():
     tab3_content = dbc.Card(
         dbc.CardBody(
             [
+                node_table(),
                 html.P("Tab 3 Content", className="tab-text"),
                 dbc.Button("Test Button", color="success"),
             ]
@@ -132,7 +135,7 @@ def info_tabs():
 
     return dbc.Tabs(
         [
-            dbc.Tab(tab1_content, label="Tab 1", tabClassName="tab-head"),
+            dbc.Tab(tab1_content, label="About AlgoHop", tabClassName="tab-head"),
             dbc.Tab(tab2_content, label="Tab 2", tabClassName="tab-head"),
             dbc.Tab(tab3_content, label="Tab 3", tabClassName="tab-head"),
         ],
@@ -149,7 +152,7 @@ def body():
                     #Info Table Column
                     dbc.Col(
                         [
-                            html.H2("Info Tabs"),
+                            #html.H2("Info Tabs"),
                             info_tabs()
                         ],
                         width=4
@@ -157,20 +160,8 @@ def body():
                     #Visualizaton Column
                     dbc.Col(
                         [
-                            html.H2("Visualization"),
-                            graph_nodes()
-                        ]
-                    )
-                ]
-            ),
-            dbc.Row(
-                [
-                    #Node Input Table
-                    dbc.Col(
-                        [
-                            html.H2("Node Table"),
-                            node_table(),
-                            #graph_table()
+                            #html.H2("Visualization"),
+                            node_graph()
                         ]
                     )
                 ]
