@@ -106,8 +106,9 @@ def info_tabs():
     tab1_content = dbc.Card(
         dbc.CardBody(
             [
+                dbc.Col(html.Img(src="assets/AlgoHopDark.png", height="360px")),
                 html.P(info_text, className="tab-text"),
-                dbc.Button("Test Button", color="success"),
+                #dbc.Button("Test Button", color="success"),
             ]
         ),
         className="info-tab"
