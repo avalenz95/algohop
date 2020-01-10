@@ -44,15 +44,15 @@ def graph_table():
     )
 
 def node_table():
-    col_names = ['Node', 'Edges', 'PosX', 'PosY']
+    col_names = ['Node', 'Edges']
 
     return dash_table.DataTable(
         id='node-table',
         columns=([{'id': name, 'name': name} for name in col_names]),
         data=[
-            {'Node': 0, 'Edges': (0,1), 'PosX': 10, 'PosY': 15},
-            {'Node': 1, 'Edges': (0,1), 'PosX': 14, 'PosY': 12},
-            {'Node': 2, 'Edges': (0,2), 'PosX': 8, 'PosY': 8}
+            {'Node': 0, 'Edges': (0,1)},
+            {'Node': 1, 'Edges': (0,1)},
+            {'Node': 2, 'Edges': (0,2)}
         ],
         editable=True
     )
@@ -170,8 +170,6 @@ def body():
                         [
                             html.H2("Node Table"),
                             node_table(),
-                            dcc.Graph(id='node-table-output'),
-                            cyto.Cytoscape(id='node-display-output'),
                             #graph_table()
                         ]
                     )
@@ -188,10 +186,11 @@ app.layout = html.Div([navbar(), body()])
 
 #Set up node display
 @app.callback(
-    Output('node-display-output', 'layout'),
+    Output('node-display', 'elements'),
     [Input('node-table', 'data'),
-     Input('node-table', 'columns')])
-def display_nodes(rows, columns):
+     Input('node-table', 'columns')],
+     [State('node-display', 'elements')])
+def update_nodes(rows, columns, elements):
     #set up data frame
     df = pd.DataFrame(rows, columns=[c['name'] for c in columns])
     
@@ -208,12 +207,7 @@ def display_nodes(rows, columns):
 
     print(node_list)
     # #Visualization object
-    return cyto.Cytoscape(
-        id='node-display',
-        layout={'name': 'circle'},
-        style={'width': '100%', 'height': '400px'},
-        elements=node_list
-    )
+    return node_list
 
 
 
@@ -221,21 +215,20 @@ def display_nodes(rows, columns):
 
 
 
-@app.callback(
-    Output('node-table-output', 'figure'),
-    [Input('node-table', 'data'),
-     Input('node-table', 'columns')])
-def display_output(rows, columns):
-    df = pd.DataFrame(rows, columns=[c['name'] for c in columns])
-    return {
-        'data': [{
-            'type': 'parcoords',
-            'dimensions': [{
-                'label': col['name'],
-                'values': df[col['id']]
-            } for col in columns]
-        }]
-    }
+# @app.callback(
+#     [Input('node-table', 'data'),
+#      Input('node-table', 'columns')])
+# def display_output(rows, columns):
+#     df = pd.DataFrame(rows, columns=[c['name'] for c in columns])
+#     return {
+#         'data': [{
+#             'type': 'parcoords',
+#             'dimensions': [{
+#                 'label': col['name'],
+#                 'values': df[col['id']]
+#             } for col in columns]
+#         }]
+#     }
 
 if __name__ == '__main__':
     app.run_server(debug=True)
