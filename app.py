@@ -72,7 +72,7 @@ def node_graph():
     return cyto.Cytoscape(
         id='node-display',
         layout={'name': 'circle'},
-        style={'width': '100%', 'height': '400px'},
+        style={'width': '100%', 'height': '900px'},
         stylesheet= default_stylesheet,
         elements=[]
     )
@@ -141,9 +141,9 @@ def info_tabs():
 
     return dbc.Tabs(
         [
-            dbc.Tab(tab1_content, label="About AlgoHop", tabClassName="tab-head"),
+            dbc.Tab(tab1_content, label="About", tabClassName="tab-head"),
             dbc.Tab(tab2_content, label="Graph Properties", tabClassName="tab-head"),
-            dbc.Tab(tab3_content, label="Tab 3", tabClassName="tab-head"),
+            dbc.Tab(tab3_content, label="Table Properties", tabClassName="tab-head"),
         ],
     )
 
