@@ -37,15 +37,15 @@ def color_input():
     return html.Div([node_color_input, edge_color_input])
 
 def node_table():
-    col_names = ['Node', 'Edges']
+    col_names = ['Node', 'from', 'to']
 
     return dash_table.DataTable(
         id='node-table',
         columns=([{'id': name, 'name': name} for name in col_names]),
         data=[
-            {'Node': 0, 'Edges': (0,1)},
-            {'Node': 1, 'Edges': (0,1)},
-            {'Node': 2, 'Edges': (0,2)}
+            {'Node': 0, 'from': 0, 'to': 1},
+            {'Node': 1, 'from': 0, 'to': 1},
+            {'Node': 2, 'from': 0, 'to': 2}
         ],
         editable=True
     )
@@ -131,8 +131,10 @@ def info_tabs():
         dbc.CardBody(
             [
                 node_table(),
-                html.P("Tab 3 Content", className="tab-text"),
-                dbc.Button("Test Button", color="success"),
+                #html.P("Tab 3 Content", className="tab-text"),
+                #html.Button('Add Row', id='add-row-button', n_clicks=0),
+                html.Br(),
+                dbc.Button('Add Row', id='add-row-button', n_clicks=0, color="primary", block=True)
             ]
         ),
         className="info-tab"
@@ -147,7 +149,6 @@ def info_tabs():
             dbc.Tab(tab3_content, label="Table Properties", tabClassName="tab-head"),
         ],
     )
-
 
 
 
@@ -200,13 +201,23 @@ def update_nodes(rows, columns, elements):
 
     #Create all edges
     for index, row in df.iterrows():
-        edge = row['Edges']
-        node_list.append({'data': {'source': f'{edge[0]}', 'target': f'{edge[1]}', 'label': f'Node {edge[0]} to {edge[1]}'}})
+        #edge = row['Edges']
+        node_list.append({'data': {'source': f'{row["from"]}', 'target': f'{row["to"]}', 'label': f'Node {row["from"]} to {row["to"]}'}})
 
     print(node_list)
     # #Visualization object
     return node_list
 
+
+@app.callback(
+    Output('node-table', 'data'),
+    [Input('add-row-button', 'n_clicks')],
+    [State('node-table', 'data'),
+     State('node-table', 'columns')])
+def add_row(n_clicks, rows, columns):
+    if n_clicks > 0:
+        rows.append({c['id']: '' for c in columns})
+    return rows
 
 @app.callback(Output('node-display', 'stylesheet'),
           [Input('edge-color', 'value'),
