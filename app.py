@@ -120,7 +120,7 @@ def info_tabs():
             [
                 html.P("Graph Properties", className="tab-text"),
                 color_input(),
-                dbc.Button("Test Button", color="success"),
+                #dbc.Button("Test Button", color="success"),
             ]
         ),
         className="info-tab"
