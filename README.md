@@ -19,7 +19,7 @@ Algorithm Hop(AlgoHop) is meant to be an alterative way to view and understand a
 
 # Viewing the App
 
-The app is available to view [here.](https://ab-algorithmhop.herokuapp.com/) Please give it a mintue to load as heroku(where it's hosted) takes about a minute to spin up a server
+The app is available to view [here.](https://ab-algorithmhop.herokuapp.com/) Please give it a mintue to load as heroku(where it's hosted) takes about a minute to spin up a server.
 
 # Running Locally
 
