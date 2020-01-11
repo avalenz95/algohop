@@ -106,7 +106,8 @@ def info_tabs():
     tab1_content = dbc.Card(
         dbc.CardBody(
             [
-                dbc.Col(html.Img(src="assets/AlgoHopDark.png", height="360px")),
+                dbc.CardImg(src="assets/AlgoHopDark.png"),
+                #dbc.Col(html.Img(src="assets/AlgoHopDark.png", height="320px"), align="start"),
                 html.P(info_text, className="tab-text"),
                 #dbc.Button("Test Button", color="success"),
             ]
@@ -145,8 +146,8 @@ def info_tabs():
     return dbc.Tabs(
         [
             dbc.Tab(tab1_content, label="About", tabClassName="tab-head"),
-            dbc.Tab(tab2_content, label="Graph Properties", tabClassName="tab-head"),
-            dbc.Tab(tab3_content, label="Table Properties", tabClassName="tab-head"),
+            dbc.Tab(tab2_content, label="Graph ", tabClassName="tab-head"),
+            dbc.Tab(tab3_content, label="Table", tabClassName="tab-head"),
         ],
     )
 
