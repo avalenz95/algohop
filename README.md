@@ -41,7 +41,7 @@ Which will spin up a development server at located at http://127.0.0.1:8050/
 
 [Plotly](https://plot.ly/graphing-libraries/) - A great open source graphing library that has a multitude of graphs, plots, and charts available to use.
 
-[Dash](https://dash.plot.ly/) - Based off Flask, Dash is a great framework for building web-based analytic programs.
+[Dash](https://dash.plot.ly/) - Based off [Flask](https://palletsprojects.com/p/flask/), Dash is a great framework for building web-based analytic programs.
 
 [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/) - Provides useful layouts and components specifically for Plotly's Dash framework.
 
