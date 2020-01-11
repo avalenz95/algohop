@@ -27,7 +27,6 @@ The app is available to view [here.](https://ab-algorithmhop.herokuapp.com/) Ple
 If you would like to run the app locally make sure you install the dependiences found in `Pipfile.lock`.
 More information about the dependencies can be found in the [built with](#built-with) section further down in the readme.
 
-Depend
 
 Then simply run:
 
