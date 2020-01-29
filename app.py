@@ -72,7 +72,7 @@ def node_graph():
     return cyto.Cytoscape(
         id='node-display', 
         layout={'name': 'circle', 'animate': 'true'},
-        style={'width': '100%', 'height': '900px'},
+        style={'width': '110%', 'height': '900px'},
         stylesheet= default_stylesheet,
         elements=[]
     )
@@ -171,7 +171,8 @@ def body():
                         [
                             #html.H2("Visualization"),
                             node_graph()
-                        ]
+                        ],
+                        width=8
                     )
                 ]
             )
