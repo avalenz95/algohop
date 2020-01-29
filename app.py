@@ -70,8 +70,8 @@ def node_graph():
     ]
 
     return cyto.Cytoscape(
-        id='node-display',
-        layout={'name': 'circle'},
+        id='node-display', 
+        layout={'name': 'circle', 'animate': 'true'},
         style={'width': '100%', 'height': '900px'},
         stylesheet= default_stylesheet,
         elements=[]
